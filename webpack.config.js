@@ -21,6 +21,19 @@ module.exports = {
             loader: 'css-loader'
           }
         ]
+      },
+      {
+        // 画像ファイルの読み込みを行う
+        test: /\.(png|jpg)/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              esModule: false,
+              name: 'img/[name].[ext]'
+            }
+          }
+        ]
       }
     ]
   },

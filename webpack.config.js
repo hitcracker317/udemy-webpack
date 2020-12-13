@@ -1,7 +1,8 @@
 const path = require('path');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const htmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { loader } = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/js/app.js',
@@ -23,7 +24,6 @@ module.exports = {
         ]
       },
       {
-        // 画像ファイルの読み込みを行う
         test: /\.(png|jpg)/,
         use: [
           {
@@ -34,6 +34,21 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        // pugをコンパイルしてhtmlを書き出す
+        test: /\.pug/,
+        use: [
+          {
+            loader: 'html-loader',
+          },
+          {
+            loader: 'pug-html-loader',
+            options: {
+              pretty: true
+            }
+          }
+        ],
       }
     ]
   },
@@ -42,7 +57,13 @@ module.exports = {
       filename: './css/style.css'
     }),
     new htmlWebpackPlugin({
-      template: './src/template/index.html',
+      template: './src/template/index.pug', // pugをテンプレートとする
+      filename: 'index.html',
+    }),
+    new htmlWebpackPlugin({
+      // 複数のページをコンパイルする
+      template: './src/template/about.pug',
+      filename: 'about.html',
     }),
     new CleanWebpackPlugin(),
   ]

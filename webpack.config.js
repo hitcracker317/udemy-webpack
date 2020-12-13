@@ -1,12 +1,13 @@
 const path = require('path');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const htmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/js/app.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'main.js',
+    filename: './js/script.js',
   },
   module: {
     rules: [
@@ -24,12 +25,12 @@ module.exports = {
     ]
   },
   plugins: [
-    // 使用するプラグインをこちらで定義
-    new MiniCSSExtractPlugin(),
-    new htmlWebpackPlugin({
-      // プラグインのオプション
-      // テンプレート先のHTMLを指定する
-      template: './src/index.html',
+    new MiniCSSExtractPlugin({
+      filename: './css/style.css'
     }),
+    new htmlWebpackPlugin({
+      template: './src/template/index.html',
+    }),
+    new CleanWebpackPlugin(),
   ]
 }

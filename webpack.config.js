@@ -13,13 +13,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css/,
+        test: /\.(css|sass|scss)/,
         use: [
           {
             loader: MiniCSSExtractPlugin.loader
           },
           {
             loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader' //sassのloaderを優先する
           }
         ]
       },
@@ -57,11 +60,10 @@ module.exports = {
       filename: './css/style.css'
     }),
     new htmlWebpackPlugin({
-      template: './src/template/index.pug', // pugをテンプレートとする
+      template: './src/template/index.pug',
       filename: 'index.html',
     }),
     new htmlWebpackPlugin({
-      // 複数のページをコンパイルする
       template: './src/template/about.pug',
       filename: 'about.html',
     }),

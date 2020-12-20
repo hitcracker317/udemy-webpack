@@ -3,6 +3,7 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { loader } = require('mini-css-extract-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin') //vueのプラグイン
 
 module.exports = {
   mode: 'development',
@@ -14,6 +15,16 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        // vueをビルドする
+        test: /\.vue/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'vue-loader'
+          }
+        ]
+      },
       {
         test: /\.js/,
         exclude: /node_module/,
@@ -39,7 +50,7 @@ module.exports = {
           },
           {
             loader: 'css-loader',
-            options: { // sassファイルを特定しやすくするためのオプション
+            options: {
               sourceMap: true,
             }
           },
@@ -59,7 +70,13 @@ module.exports = {
             }
           },
           {
-            loader: 'image-webpack-loader', // 画像ファイルの軽量化
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65
+              }
+            }
           }
         ]
       },
@@ -80,6 +97,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new VueLoaderPlugin(),
     new MiniCSSExtractPlugin({
       filename: './css/style.css'
     }),

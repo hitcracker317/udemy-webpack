@@ -13,6 +13,23 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js/,
+        exclude: /node_module/, // node_modulesのディレクトリは除外する
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                [
+                  '@babel/preset-env', // babelのプラグインが束になったもの
+                  { 'targets': '> 0.25%, not dead' } //0.25%以上のシェアのあるブラウザとサポートが終了していないバージョンを対象とする
+                ]
+              ],
+            }
+          },
+        ]
+      },
+      {
         test: /\.(css|sass|scss)/,
         use: [
           {
@@ -22,7 +39,7 @@ module.exports = {
             loader: 'css-loader'
           },
           {
-            loader: 'sass-loader' //sassのloaderを優先する
+            loader: 'sass-loader'
           }
         ]
       },
@@ -39,7 +56,6 @@ module.exports = {
         ]
       },
       {
-        // pugをコンパイルしてhtmlを書き出す
         test: /\.pug/,
         use: [
           {

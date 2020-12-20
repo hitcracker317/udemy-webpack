@@ -5,6 +5,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { loader } = require('mini-css-extract-plugin');
 
 module.exports = {
+  mode: 'development', // webpackビルドのデフォルトモードを指定
+  devtool: 'source-map', // ソースマップを使用してデバッグしやすくする
   entry: './src/js/app.js',
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -14,15 +16,15 @@ module.exports = {
     rules: [
       {
         test: /\.js/,
-        exclude: /node_module/, // node_modulesのディレクトリは除外する
+        exclude: /node_module/,
         use: [
           {
             loader: 'babel-loader',
             options: {
               presets: [
                 [
-                  '@babel/preset-env', // babelのプラグインが束になったもの
-                  { 'targets': '> 0.25%, not dead' } //0.25%以上のシェアのあるブラウザとサポートが終了していないバージョンを対象とする
+                  '@babel/preset-env',
+                  { 'targets': '> 0.25%, not dead' }
                 ]
               ],
             }
@@ -36,7 +38,10 @@ module.exports = {
             loader: MiniCSSExtractPlugin.loader
           },
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
+            options: { // sassファイルを特定しやすくするためのオプション
+              sourceMap: true,
+            }
           },
           {
             loader: 'sass-loader'

@@ -5,8 +5,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { loader } = require('mini-css-extract-plugin');
 
 module.exports = {
-  mode: 'development', // webpackビルドのデフォルトモードを指定
-  devtool: 'source-map', // ソースマップを使用してデバッグしやすくする
+  mode: 'development',
+  devtool: 'source-map',
   entry: './src/js/app.js',
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -49,7 +49,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg)/,
+        test: /\.(png|jpg|jpeg)/,
         use: [
           {
             loader: 'file-loader',
@@ -57,6 +57,9 @@ module.exports = {
               esModule: false,
               name: 'img/[name].[ext]'
             }
+          },
+          {
+            loader: 'image-webpack-loader', // 画像ファイルの軽量化
           }
         ]
       },

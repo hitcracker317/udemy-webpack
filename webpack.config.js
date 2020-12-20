@@ -16,7 +16,16 @@ module.exports = {
   module: {
     rules: [
       {
-        // vueをビルドする
+        // typescriptをビルドする
+        test: /\.ts/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'ts-loader'
+          }
+        ]
+      },
+      {
         test: /\.vue/,
         exclude: /node_modules/,
         use: [
